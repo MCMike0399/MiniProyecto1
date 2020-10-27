@@ -27,7 +27,16 @@ namespace MiniProyecto1 {
         private int vao;
         private Shader shader;
         private Texture texture;
-        
+        bool flag = false;
+
+        private readonly float[] vertices2 = {
+            -0.5f,-0.5f,0.0f, 1.0f,0.0f,0.0f,
+            0.5f,-0.5f,0.0f, 1.0f,0.0f,0.0f,
+            0.0f,0.5f,0.0f, 1.0f,0.0f,0.0f,
+        };
+        private int vbo2;
+        private int vao2;
+        private Shader shader2;
 
         protected override void OnLoad()
         {
@@ -36,31 +45,37 @@ namespace MiniProyecto1 {
             vbo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
-
             ebo = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
-
             shader = new Shader("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\vert.glsl", "C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\frag.glsl");
             shader.Use();
-
             texture = new Texture("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Texturas\\sol.jpg");
             texture.Use();
-
             vao = GL.GenVertexArray();
             GL.BindVertexArray(vao);
-
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-
-
             var vertexLocation = shader.GetAttribLocation("aPosition");
             GL.EnableVertexAttribArray(vertexLocation);
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-
             var texCoordLocation = shader.GetAttribLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+
+            //Triángulo Rojo de Prueba
+            vbo2 = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo2);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices2.Length * sizeof(float), vertices2, BufferUsageHint.StaticDraw);
+            shader2 = new Shader("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\vert2.glsl", "C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\frag2.glsl");
+            shader2.Use();
+            vao2 = GL.GenVertexArray();
+            GL.BindVertexArray(vao2);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo2);
 
             base.OnLoad();
         }
@@ -71,17 +86,21 @@ namespace MiniProyecto1 {
             var transform = Matrix4.Identity;
             float tiempo = (float)GLFW.GetTime();
             if(tiempo<11) {
-                transform *= Matrix4.CreateScale(0.3f*tiempo);
+                transform *= Matrix4.CreateScale(0.3f*tiempo);            
             }
             else { //Ya terminó de crecer
                 transform *= Matrix4.CreateScale(tiempo);
+                flag = true;
             }
             texture.Use();
             shader.Use();
-
-            shader.SetMatrix4("transform",transform);
-
+            shader.SetMatrix4("transform",transform); 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+            shader2.Use();
+            if(flag) {
+                GL.DrawArrays(PrimitiveType.Triangles, 0, 3);  
+            }
+             
             SwapBuffers();
             base.OnRenderFrame(e);
         }

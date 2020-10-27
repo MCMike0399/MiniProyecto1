@@ -27,6 +27,7 @@ namespace MiniProyecto1 {
         private int vao;
         private Shader shader;
         private Texture texture;
+        
 
         protected override void OnLoad()
         {
@@ -68,8 +69,13 @@ namespace MiniProyecto1 {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(vao);
             var transform = Matrix4.Identity;
-            transform *= Matrix4.CreateScale(0.3f*(float)GLFW.GetTime());
-            
+            float tiempo = (float)GLFW.GetTime();
+            if(tiempo<11) {
+                transform *= Matrix4.CreateScale(0.3f*tiempo);
+            }
+            else { //Ya terminó de crecer
+                transform *= Matrix4.CreateScale(tiempo);
+            }
             texture.Use();
             shader.Use();
 

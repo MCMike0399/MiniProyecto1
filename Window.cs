@@ -1,6 +1,8 @@
 using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace MiniProyecto1 {
     public class Window : GameWindow{
@@ -65,8 +67,14 @@ namespace MiniProyecto1 {
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(vao);
+            var transform = Matrix4.Identity;
+            transform *= Matrix4.CreateScale(0.3f*(float)GLFW.GetTime());
+            
             texture.Use();
             shader.Use();
+
+            shader.SetMatrix4("transform",transform);
+
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
             SwapBuffers();
             base.OnRenderFrame(e);

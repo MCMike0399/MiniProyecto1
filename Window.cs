@@ -28,11 +28,16 @@ namespace MiniProyecto1 {
         private Shader shader;
         private Texture texture;
         bool flag = false;
-
+        bool flag2 = false;
         private readonly float[] vertices2 = {
-            -0.5f,-0.5f,0.0f, 1.0f,0.0f,0.0f,
-            0.5f,-0.5f,0.0f, 1.0f,0.0f,0.0f,
-            0.0f,0.5f,0.0f, 1.0f,0.0f,0.0f,
+            0.0f*0.001f,1.0f*0.001f, 0.0f*0.001f,
+            -(122.0f / 175.0f)*0.001f,(125.0f / 175.0f)*0.001f, 0.0f*0.001f,
+            -1.0f*0.001f,0.0f*0.001f, 0.0f*0.001f,
+            -(122.0f / 175.0f)*0.001f, -(125.0f / 175.0f)*0.001f, 0.0f*0.001f,
+            0.0f*0.001f,-1.0f*0.001f, 0.0f*0.001f,
+            (122.0f / 175.0f)*0.001f, -(125.0f / 175.0f)*0.001f, 0.0f*0.001f,
+            1.0f*0.001f,0.0f*0.001f, 0.0f*0.001f,
+            (122.0f / 175.0f)*0.001f, (125.0f / 175.0f)*0.001f, 0.0f*0.001f
         };
         private int vbo2;
         private int vao2;
@@ -50,7 +55,7 @@ namespace MiniProyecto1 {
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
             shader = new Shader("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\vert.glsl", "C:\\Users\\maqui\\Documents\\MiniProyecto1\\Shaders\\frag.glsl");
             shader.Use();
-            texture = new Texture("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Texturas\\sol.jpg");
+            texture = new Texture("C:\\Users\\maqui\\Documents\\MiniProyecto1\\Texturas\\sun.jpg");
             texture.Use();
             vao = GL.GenVertexArray();
             GL.BindVertexArray(vao);
@@ -71,11 +76,8 @@ namespace MiniProyecto1 {
             shader2.Use();
             vao2 = GL.GenVertexArray();
             GL.BindVertexArray(vao2);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
             GL.EnableVertexAttribArray(0);
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo2);
 
             base.OnLoad();
         }
@@ -84,23 +86,41 @@ namespace MiniProyecto1 {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(vao);
             var transform = Matrix4.Identity;
+            var transform2 = Matrix4.Identity;
+            var transform3 = Matrix4.Identity;
             float tiempo = (float)GLFW.GetTime();
-            if(tiempo<11) {
+            
+            if(tiempo<8) {
+                if(tiempo > 2.5) {
+                    flag = true;
+                }
                 transform *= Matrix4.CreateScale(0.3f*tiempo);            
             }
             else { //Ya terminó de crecer
-                transform *= Matrix4.CreateScale(tiempo);
-                flag = true;
+                transform *= Matrix4.CreateScale(0.3f*8);
             }
             texture.Use();
             shader.Use();
             shader.SetMatrix4("transform",transform); 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
             shader2.Use();
+            
             if(flag) {
-                GL.DrawArrays(PrimitiveType.Triangles, 0, 3);  
+                GL.BindVertexArray(vao2);
+                if(tiempo<24){
+                    transform2 *= Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(2*MathHelper.Pi));
+                    transform2 *= Matrix4.CreateScale(40.0f*tiempo); 
+                }
+                else {
+                    transform2 *= Matrix4.CreateScale(40f*24);
+                }
+                shader2.SetMatrix4("transform2",transform2);
             }
-             
+            if(flag2) {
+                transform2 *= Matrix4.CreateScale(tiempo); 
+                
+            }
+            GL.DrawArrays(PrimitiveType.TriangleFan, 0, 9); 
             SwapBuffers();
             base.OnRenderFrame(e);
         }

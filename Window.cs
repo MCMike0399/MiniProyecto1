@@ -3,12 +3,13 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-
+using System;
 
 namespace MiniProyecto1 {
     public class Window : GameWindow{
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings,nativeWindowSettings){}
+        bool flag = false;
         private readonly float[] verticesAire = {
             1.0f, -1.0f, 0.0f,  1.0f,0.0f, 
             1.0f, -(125.0f/175.0f), 0.0f,  1.0f,1.0f, 
@@ -87,6 +88,7 @@ namespace MiniProyecto1 {
         private int vao;
         private Shader shader;
         private Texture texture;
+        private int cont=0;
 
         //bool flag2 = false;
         private readonly float[] vertices2 = {
@@ -253,75 +255,314 @@ namespace MiniProyecto1 {
                     GL.DrawArrays(PrimitiveType.TriangleFan, 0, 9); 
                 }
             }
-            else {
+            else {            
                 texture.Use();
                 GL.BindVertexArray(vao);
                 transform = Matrix4.CreateScale(0.3f*7);
                 shader.SetMatrix4("transform",transform); 
                 GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-                GL.BindVertexArray(vao3);
-                texture3.Use();
-                shader3.Use();
-                transform3 = Matrix4.CreateScale(1f);
-                shader3.SetMatrix4("transform3",transform3);
-                GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
-                GL.BindVertexArray(vao4);
-                texture4.Use();
-                shader4.Use();
-                transform3 = Matrix4.CreateScale(1f);
-                shader4.SetMatrix4("transform3",transform3);
-                GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
-                GL.BindVertexArray(vao5);
-                texture5.Use();
-                shader5.Use();
-                transform3 = Matrix4.CreateScale(1f);
-                shader5.SetMatrix4("transform3",transform3);
-                GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
-                GL.BindVertexArray(vao6);
-                texture6.Use();
-                shader6.Use();
-                transform3 = Matrix4.CreateScale(1f);
-                shader6.SetMatrix4("transform3",transform3);
-                GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);
                 if(tiempo<23) {
                     GL.BindVertexArray(vao2);
                     transform2 = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(2*MathHelper.Pi));
                     transform2 = Matrix4.CreateScale(40.0f*tiempo); 
                     shader2.SetMatrix4("transform2",transform2);
                     GL.DrawArrays(PrimitiveType.TriangleFan, 0, 9); 
+                    
+                    if(cont<2000) {
+                        GL.BindVertexArray(vao3);
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);                    
+                        cont++;
+                    }
+                    else if(cont<4000) {
+                        //Console.WriteLine("holi");
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,-1.71f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,0.0f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,1.71f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(-1.696f,0.0f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<6000) {
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(-1.696f,-1.71f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,-1.71f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,1.71f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(-1.696f,1.71f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<8000) {
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(-1.696f,0.0f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,-1.71f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,0.0f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(0.0f,1.71f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<10000) {
+                        GL.BindVertexArray(vao3);
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);                    
+                        cont++;
+                    }
+                    else {
+                        cont=0;
+                    }
                 }
                 else {
                     GL.BindVertexArray(vao2);
                     transform2 = Matrix4.CreateScale(40.0f*23);
                     shader2.SetMatrix4("transform2",transform2);
                     GL.DrawArrays(PrimitiveType.TriangleFan, 0, 9);
-                    GL.BindVertexArray(vao3); 
-                    shader3.Use();
-                    texture3.Use();
-                    transform3 = Matrix4.CreateTranslation(0.0f,-1.71f,0.0f);
-                    shader3.SetMatrix4("transform3",transform3);
-                    GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
-                    GL.BindVertexArray(vao4); 
-                    shader4.Use();
-                    texture4.Use();
-                    transform3 = Matrix4.CreateTranslation(1.696f,0.0f,0.0f);
-                    shader4.SetMatrix4("transform3",transform3);
-                    GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
-                    GL.BindVertexArray(vao5); 
-                    shader5.Use();
-                    texture5.Use();
-                    transform3 = Matrix4.CreateTranslation(0.0f,1.71f,0.0f);
-                    shader5.SetMatrix4("transform3",transform3);
-                    GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
-                    GL.BindVertexArray(vao6); 
-                    shader6.Use();
-                    texture6.Use();
-                    transform3 = Matrix4.Identity;
-                    transform3 = Matrix4.CreateTranslation(-1.696f,0.0f,0.0f);
-                    shader6.SetMatrix4("transform3",transform3);
-                    GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);
-                }
-                
+                    if(cont<2000) {
+                        GL.BindVertexArray(vao3);
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);                    
+                        cont++;
+                    }
+                    else if(cont<4000) {
+                        //Console.WriteLine("holi");
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,-1.71f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,0.0f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,1.71f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(-1.696f,0.0f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<6000) {
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(-1.696f,-1.71f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,-1.71f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,1.71f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(-1.696f,1.71f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<8000) {
+                        GL.BindVertexArray(vao3); 
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateTranslation(-1.696f,0.0f,0.0f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateTranslation(0.0f,-1.71f,0.0f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateTranslation(1.696f,0.0f,0.0f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateTranslation(0.0f,1.71f,0.0f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);     
+                        cont++;
+                    }
+                    else if(cont<10000) {
+                        GL.BindVertexArray(vao3);
+                        shader3.Use();
+                        texture3.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader3.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices3.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao4); 
+                        shader4.Use();
+                        texture4.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader4.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices4.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao5); 
+                        shader5.Use();
+                        texture5.Use();
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader5.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices5.Length,DrawElementsType.UnsignedInt,0);
+                        GL.BindVertexArray(vao6); 
+                        shader6.Use();
+                        texture6.Use();
+                        transform3 = Matrix4.Identity;
+                        transform3 = Matrix4.CreateScale(1f);
+                        shader6.SetMatrix4("transform3",transform3);
+                        GL.DrawElements(PrimitiveType.Triangles,indices6.Length,DrawElementsType.UnsignedInt,0);                    
+                        cont++;
+                    }
+                    else {
+                        cont=0;
+                    }
+                }         
             }
             SwapBuffers();
             base.OnRenderFrame(e);
